@@ -1,0 +1,17 @@
+# Rust specific
+*/target/
+**/*.rs.bk
+**/Cargo.lock
+
+# Debug files
+**/*.pdb
+
+# IDE specific
+.vscode/
+.idea/
+
+# Windows specific
+**/*.exe
+**/*.dll
+**/*.exp
+**/*.lib
