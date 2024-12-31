@@ -6,6 +6,42 @@ use std::collections::{HashMap, HashSet};
 // Return the number of pairs (i, j) such that 0 <= i < j < words.length and words[i] and words[j] are similar.
 
 
+        // USING BITMASK METHOD
+    // extract the each word, 
+    // create a bit mask U32 of it by iterating over each character of the word as bytes, 
+    // (no need to convert the word to HashSet) since bitwise OR will make the same change for same char, 
+    // for every number.
+
+    // keep these bistmasks in a array and create a loop to compare every bitmask to its right ones 
+    // to see if theey are same or not (avoiding the duplicates)
+    // OR
+    // write the comparison loop first and create the bitmasks of both the numbers and check if same. 
+    pub fn similar_pairs2(words: Vec<String>) -> i32 {
+        let l = words.len(); // length of the vector<String>
+        let mut count = 0; 
+        let mut masks = Vec::with_capacity(101);
+
+        for word in words {
+            let mut mask = 0;
+            for b in word.bytes() {
+                let bit_pos = b - b'a';
+                mask = mask | (1<<bit_pos); 
+            }
+            masks.push(mask);
+        }
+        println!("masks -> {:?} ", masks);
+
+        // Comparison loop
+        for i in 0..l {
+            for j in (i+1)..l{
+                if masks[i] == masks[j] {
+                    count +=1;
+                }
+            }
+        }
+        count
+
+    }
 
     // USING BITMASK METHOD
     pub fn similar_pairs(words: Vec<String>) -> i32 {
@@ -163,8 +199,8 @@ fn main() {
     println!("Bitmask: {}", similar_pairs_bitmask(words.clone()));
     println!("Hashmap: {}", similar_pairs_hashmap(words.clone()));
     println!("Hashmap: {}", similar_pairs_hashmap2(words.clone()));
+    println!("String Key: {}", similar_pairs2(words.clone()));
     println!("String Key: {}", similar_pairs_string_key(words));
-
     let words2 = vec!["aabb".to_string(), "ab".to_string(), "ba".to_string()];
     println!("Bitmask: {}", similar_pairs_bitmask(words2.clone()));
     println!("Hashmap: {}", similar_pairs_hashmap(words2.clone()));
